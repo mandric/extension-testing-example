@@ -8,6 +8,7 @@ Hoping to make it work with Firefox then Safari next.
 
 ```
 git clone [this repo]
+cd extension-testing-example
 npm install
 npm run build # runs parcel build src/manifest.json
 ```
@@ -15,7 +16,7 @@ npm run build # runs parcel build src/manifest.json
 Then you should be able to load the `dist/` directory into your Chrome browser
 as an extension and see Fibonacci greatness.
 
-If you prefer unminified builds you can pass a flag to Parcel.
+If you need unminified builds you can pass a flag to Parcel.
 
 ```
 npx parcel build --no-minify --no-source-maps src/manifest.json

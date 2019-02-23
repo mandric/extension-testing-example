@@ -14,6 +14,10 @@
  *
  * Takes a `browser` parameter because we can pass in different APIs (browsers)
  * include a mock API for testing. Only chrome is supported atm.
+ *
+ * ignoring `onCreated` events because a new tab also immediately emits an
+ * updated/loading event so then you need to avoid updating the same tab twice
+ * when they are created.
  */
 
 'use strict';
@@ -22,24 +26,23 @@ const state = require('./state');
 
 module.exports = (browser) => {
 
-function setBadge(str, id) {
+const setBadge = (str, id) => {
   browser.browserAction.setBadgeText({
     text: String(str),
     tabId: id
   });
 }
 
-function tabActivated(props) {
+const tabActivated = (props) => {
   const id = props.tabId;
   setBadge(state.getVal(id), id);
 }
 
 /*
- * Not sure whether to use 'loading' or 'complete' event.  If you use loading
- * then the request might never complete, if you use complete then UI update is
- * delayed.
+ * Used 'loading' rather than 'complete' event since a request might never
+ * complete.
  */
-function tabUpdated(id, props = {}, tab = {}) {
+const tabUpdated = (id, props = {}, tab = {}) => {
   let val = state.getVal(id);
   if (props.status === 'loading') {
     val = state.nextVal(id);
@@ -47,17 +50,13 @@ function tabUpdated(id, props = {}, tab = {}) {
   setBadge(val, id);
 }
 
-function tabRemoved(id, props) {
+const tabRemoved = (id, props) => {
   state.unset(id);
 }
 
 browser.tabs.onActivated.addListener(tabActivated);
 browser.tabs.onUpdated.addListener(tabUpdated);
 browser.tabs.onRemoved.addListener(tabRemoved);
-
-// ignoring `onCreated` because a new tab also immediately calls a
-// updated/loaded event so then you need to avoid updating the same tab twice.
-// browser.tabs.onCreated.addListener(tabCreated);
 
 /*
  * Initialize tab values and set badge on active tab.
