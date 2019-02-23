@@ -1,0 +1,29 @@
+version: 2
+jobs:
+  build:
+    working_directory: ~/repo
+    docker:
+      - image: circleci/node:latest
+    steps:
+      - checkout
+      - restore_cache:
+          key: dependency-cache-{{ checksum "package.json" }}
+      #- run: sudo npm install -g npm@latest
+      - run: npm install
+      - save_cache:
+          key: dependency-cache-{{ checksum "package.json" }}
+          paths:
+            - ./node_modules
+      - run: npm test
+      - run: npm run build
+      - run: |
+          name="$CIRCLE_PROJECT_REPONAME-$CIRCLE_BUILD_NUM" && \
+          mkdir packed && \
+          mv dist "$name" && \
+          tar zcf "$name.tgz" "$name" && \
+          mv "$name.tgz" packed/
+      - store_artifacts:
+          path: packed
+          destination: packed
+
+
