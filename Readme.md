@@ -1,3 +1,5 @@
+[![CircleCI](https://circleci.com/gh/mandric/extension-testing-example.svg?style=svg)](https://circleci.com/gh/mandric/extension-testing-example)
+
 # extension-testing-example
 
 Browser extension example using Parcel, Mocha, Sinon-Chrome and Chrome API.
