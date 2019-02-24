@@ -11,7 +11,7 @@ const populate = (length) => {
 
 describe('state lib', () => {
 
-  beforeEach(function() {
+  beforeEach(() => {
     return state.reset();
   });
 
