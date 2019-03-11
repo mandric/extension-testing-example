@@ -1,4 +1,9 @@
 
+import browser from './browser.js'
+
 document.getElementById('reset').onclick = function(el) {
-  chrome.runtime.reload();
+  browser.runtime.reload()
+}
+document.getElementById('test').onclick = function(el) {
+  window.open(browser.extension.getURL("test.html"), '_blank')
 }

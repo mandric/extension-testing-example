@@ -1,5 +1,7 @@
-'use strict';
 
+/*
+ * data store
+ */
 const data = {
   fibSeq: [],
   tabs: {}
@@ -27,21 +29,28 @@ const calcNextVal = () => {
   return next;
 }
 
-exports.getVal = (id) => {
+const getVal = (id) => {
   return data.tabs[id];
 }
 
-exports.unset = (id) => {
-  delete data.tabs[id];
-}
-
-exports.nextVal = (id) => {
+const nextVal = (id) => {
   const val = calcNextVal();
   setVal(val, id);
   return val;
 }
 
-exports.reset = () => {
+const unset = (id) => {
+  delete data.tabs[id];
+}
+
+const reset = () => {
   data.fibSeq = [];
   data.tabs = {};
+}
+
+export default {
+  getVal,
+  nextVal,
+  unset,
+  reset
 }
