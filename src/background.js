@@ -20,11 +20,10 @@
  * when they are created.
  */
 
-'use strict';
-
-const state = require('./state');
-
-module.exports = (browser) => {
+import state from './state.js'
+//import browser from './browser.js'
+//const browser = chrome;
+import browser from './browser.js'
 
 const setBadge = (str, id) => {
   browser.browserAction.setBadgeText({
@@ -43,6 +42,7 @@ const tabActivated = (props) => {
  * complete.
  */
 const tabUpdated = (id, props = {}, tab = {}) => {
+  console.log('tabUpdated', id);
   let val = state.getVal(id);
   if (props.status === 'loading') {
     val = state.nextVal(id);
@@ -61,7 +61,7 @@ browser.tabs.onRemoved.addListener(tabRemoved);
 /*
  * Initialize tab values and set badge on active tab.
  */
-browser.tabs.query({currentWindow: true}, allTabs => {
+browser.tabs.query({currentWindow: true}).then(allTabs => {
   allTabs.map(tab => {
     let val = state.nextVal(tab.id);
     if (tab.active) {
@@ -77,9 +77,3 @@ browser.tabs.query({currentWindow: true}, allTabs => {
 browser.runtime.onInstalled.addListener(details => {
   //console.log(navigator.userAgent);
 });
-
-}
-
-if (chrome) {
-  module.exports(chrome);
-}
