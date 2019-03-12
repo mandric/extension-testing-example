@@ -1,5 +1,5 @@
 import chai from './chai.js'
-import browser from './browser.js'
+import browser from '../browser.js'
 
 const expect = chai.expect
 

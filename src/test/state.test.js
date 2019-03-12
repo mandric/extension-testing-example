@@ -1,6 +1,6 @@
 console.log('testing state lib')
 import chai from './chai.js'
-import state from './state.js'
+import state from '../state.js'
 
 const expect = chai.expect
 
@@ -9,7 +9,6 @@ const populate = (length) => {
     state.nextVal(i)
   }
 }
-
 
 describe('state lib', () => {
 

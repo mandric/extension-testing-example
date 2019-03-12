@@ -54,6 +54,9 @@ const tabRemoved = (id, props) => {
   state.unset(id);
 }
 
+console.log('browser');
+console.log(browser);
+
 browser.tabs.onActivated.addListener(tabActivated);
 browser.tabs.onUpdated.addListener(tabUpdated);
 browser.tabs.onRemoved.addListener(tabRemoved);
