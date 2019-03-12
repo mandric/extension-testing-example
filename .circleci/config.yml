@@ -15,7 +15,7 @@ jobs:
           key: dependency-cache-{{ checksum "package.json" }}
           paths:
             - ./node_modules
-      - run: npm test
+      #- run: npm test
       - run: npm run build
       - run: |
           name="$CIRCLE_PROJECT_REPONAME-$CIRCLE_BUILD_NUM" && \
