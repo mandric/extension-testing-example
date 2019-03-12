@@ -6,14 +6,12 @@
   "engines": {
     "node": ">=8"
   },
-  "directories": {
-    "test": "tests"
-  },
   "scripts": {
     "server": "http-server -c-1 dist",
     "start": "parcel src/manifest.json",
     "build": "parcel build --public-url ./ src/manifest.json",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "clean": "rm -rf dist"
   },
   "keywords": [],
   "author": "",

@@ -21,8 +21,6 @@
  */
 
 import state from './state.js'
-//import browser from './browser.js'
-//const browser = chrome;
 import browser from './browser.js'
 
 const setBadge = (str, id) => {

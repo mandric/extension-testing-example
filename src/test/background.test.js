@@ -1,29 +1,21 @@
 import chai from './chai.js'
-import browser from '../browser.js'
-
 const expect = chai.expect
 
-console.log('testing background worker');
+import browser from '../browser.js'
 
-/*
- * Nothing is exported from background.js atm, so here just test similar calls
- * it makes to browser.
- */
+// Messing with browser calls
 describe('background worker', function () {
-  it('sets badge value when tab is activate', () => {
-    //chrome.tabs.onUpdated(); const tabUpdated = (id, props = {}, tab = {}) => {
-    browser.tabs.onUpdated.dispatch(10, {status: 'loading'});
-    //chrome.tabs.create({url: '', active: true});
-    /*browser.tabs.query({currentWindow: true}, allTabs => {
-      console.log('allTabs');
-      console.log(allTabs);
-    });
-    */
-    //chrome.tabs.update({url: 'http://example.com'}, (tab) => {
+  //it('sets badge value when tab is activate', () => {
+  it('tabs.onUpdated has a dispatch method', () => {
+    browser.tabs.onUpdated.dispatch(10, {status: 'loading'})
+  })
+  it('tabs has a query method', () => {
+    //browser.tabs.create({url: 'http://mozilla.org', active: true});
+    browser.tabs.query({currentWindow: true}).then((tabs) => {
+      console.log('tabs', tabs)
+    })
+    //browser.tabs.update({url: 'http://example.com'}, (tab) => {
     //  console.log(arguments);
     //});
-  });
-  it('can determine truth', () => {
-    expect(Boolean('truth')).to.be.true;
-  });
+  })
 });
