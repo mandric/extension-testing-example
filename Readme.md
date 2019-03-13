@@ -68,5 +68,7 @@ have to be logged into see them.  I will add them to the release page.
 - https://github.com/pureooze/extension-testing-example
 - https://github.com/lusakasa/saka-extension-boilerplate
 - https://github.com/tinfoil/testable-chrome-extension-example
+- https://alxgbsn.co.uk/2019/02/22/testing-native-es-modules-mocha-esm/
 - https://github.com/vitalets/mocha-es6-modules
+- https://github.com/vitalets/awesome-browser-extensions-and-apps
 
