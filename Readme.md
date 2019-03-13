@@ -7,7 +7,7 @@ exercise the browser APIs available to extensions where possible.
 [webextension-polyfill](https://github.com/mozilla/webextension-polyfill) is
 used to standardize the `browser` API on Chrome.
 
-Testing in Chrome and Firefox to for now.
+Testing in Chrome and Firefox for now.
 
 # Getting Started
 
@@ -23,10 +23,10 @@ that you can load into your browser as an extension if you turn on extensions
 developer mode in Chrome or use about:debugging and "Load Temporary Add-on" in
 Firefox.
 
-Parcel will also watch the source file and rebuild automatically.
-
 Then you should be able to load the `dist/` directory into your browser and see
 Fibonacci greatness.
+
+Parcel will also watch the source files and rebuild automatically.
 
 See also [Chrome: Getting Started
 Tutorial](https://developers.chrome.com/extensions/getstarted) and 
@@ -61,3 +61,12 @@ Build artifacts (zip file of dist/) are being saved on CirlceCI but you might
 have to be logged into see them.  I will add them to the release page.
 
 [![CircleCI](https://circleci.com/gh/mandric/extension-testing-example.svg?style=svg)](https://circleci.com/gh/mandric/extension-testing-example)
+
+## Related Projects
+
+- https://github.com/Standard8/example-webextension
+- https://github.com/pureooze/extension-testing-example
+- https://github.com/lusakasa/saka-extension-boilerplate
+- https://github.com/tinfoil/testable-chrome-extension-example
+- https://github.com/vitalets/mocha-es6-modules
+
