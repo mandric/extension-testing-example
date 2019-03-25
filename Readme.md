@@ -17,13 +17,9 @@ npm install
 npm run build
 ```
 
-This will generate an extension in `dist/development` which can be
-loaded as a temporary extension. You must turn on extensions developer
-mode in Chrome or use about:debugging and "Load Temporary Add-on" in
-Firefox.
-
-To generate a production build (without tests) run `npm run
-build-prod`, the extension will be generated in `dist/production`.
+This will generate an extension in `dist` which can be loaded as a
+temporary extension. You must turn on extensions developer mode in
+Chrome or use about:debugging and "Load Temporary Add-on" in Firefox.
 
 See also [Chrome: Getting Started
 Tutorial](https://developers.chrome.com/extensions/getstarted) and
