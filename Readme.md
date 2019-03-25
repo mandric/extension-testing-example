@@ -43,7 +43,14 @@ build would include the tests so anyone can run them after installation.
 # Tests
 
 Click the tests button in the extension popup to run the tests in separate html
-page.
+page (currently just shows TAP output, but can be updated to show HTML output).
+
+To run the tests in headless Firefox via selenium (useful for CI):
+
+```
+npm run build
+npm test
+```
 
 ## Integration
 
