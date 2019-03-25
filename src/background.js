@@ -42,7 +42,7 @@ const tabActivated = (props) => {
 const tabUpdated = (id, props = {}, tab = {}) => {
   console.log('tabUpdated', id);
   let val = state.getVal(id);
-  if (props.status === 'loading') {
+  if (props.status === 'complete') {
     val = state.nextVal(id);
   }
   setBadge(val, id);
@@ -51,9 +51,6 @@ const tabUpdated = (id, props = {}, tab = {}) => {
 const tabRemoved = (id, props) => {
   state.unset(id);
 }
-
-console.log('browser');
-console.log(browser);
 
 browser.tabs.onActivated.addListener(tabActivated);
 browser.tabs.onUpdated.addListener(tabUpdated);
@@ -72,8 +69,8 @@ browser.tabs.query({currentWindow: true}).then(allTabs => {
 });
 
 /*
- * We could do specific things when running with puppeteer here by setting and
- * checking userAgent.
+ * We could do specific things here during install per userAgent or browser
+ * features (preferred).
  */
 browser.runtime.onInstalled.addListener(details => {
   //console.log(navigator.userAgent);

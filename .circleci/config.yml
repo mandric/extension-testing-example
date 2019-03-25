@@ -3,7 +3,7 @@ jobs:
   build:
     working_directory: ~/repo
     docker:
-      - image: circleci/node:latest
+      - image: circleci/node:8-browsers
     steps:
       - checkout
       - run: node -v
@@ -15,12 +15,12 @@ jobs:
           key: dependency-cache-{{ checksum "package.json" }}
           paths:
             - ./node_modules
-      #- run: npm test
       - run: npm run build
+      - run: npm test
       - run: |
-          name="$CIRCLE_PROJECT_REPONAME-$CIRCLE_BUILD_NUM" && \
+          name="$CIRCLE_PROJECT_REPONAME-$CIRCLE_BUILD_NUM-debug" && \
           mkdir packed && \
-          mv dist "$name" && \
+          mv dist/development "$name" && \
           tar zcf "$name.tgz" "$name" && \
           mv "$name.tgz" packed/
       - store_artifacts:

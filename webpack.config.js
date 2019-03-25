@@ -9,7 +9,7 @@ const DEVELOPMENT = mode === 'development';
 module.exports = {
     mode: mode,
     // only build source maps for development build
-    devtool: mode == 'development' ? 'source-map': false,
+    devtool: mode == 'development' ? 'inline-source-map': false,
     entry: {
         // separate bundles
         browser: './src/browser.js',

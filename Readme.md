@@ -23,7 +23,7 @@ mode in Chrome or use about:debugging and "Load Temporary Add-on" in
 Firefox.
 
 To generate a production build (without tests) run `npm run
-build-prod`, the extension will be generated in `dist/production`.
+build:prod`, the extension will be generated in `dist/production`.
 
 See also [Chrome: Getting Started
 Tutorial](https://developers.chrome.com/extensions/getstarted) and
