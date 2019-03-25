@@ -7,9 +7,8 @@
     "node": ">=8"
   },
   "scripts": {
-    "server": "http-server -c-1 dist",
-    "start": "parcel src/manifest.json",
-    "build": "parcel build --public-url ./ src/manifest.json",
+    "build": "webpack",
+    "build-prod": "NODE_ENV=production webpack",
     "test": "echo \"Error: no test specified\" && exit 1",
     "clean": "rm -rf dist"
   },
@@ -18,10 +17,14 @@
   "license": "ISC",
   "devDependencies": {
     "chai": "^4.2.0",
-    "http-server": "^0.11.1",
-    "mocha": "^6.0.1",
-    "parcel-plugin-web-extension": "^1.5.2",
-    "sinon": "^7.2.7"
+    "copy-webpack-plugin": "^5.0.2",
+    "css-loader": "^2.1.1",
+    "file-loader": "^3.0.1",
+    "html-webpack-plugin": "^3.2.0",
+    "mocha": "^6.0.2",
+    "style-loader": "^0.23.1",
+    "webpack": "^4.29.6",
+    "webpack-cli": "^3.3.0"
   },
   "dependencies": {
     "webextension-polyfill": "^0.4.0"
