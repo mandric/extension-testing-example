@@ -1,8 +1,7 @@
-
 # extension-testing-example
 
 Browser extension example using ES Modules and browser testing with Mocha,
-Chai, Sinon and Parcel for bundling.  Specifically testing in the browser to
+Chai, Sinon and Webpack for bundling.  Specifically testing in the browser to
 exercise the browser APIs available to extensions where possible.
 [webextension-polyfill](https://github.com/mozilla/webextension-polyfill) is
 used to standardize the `browser` API on Chrome.
@@ -15,21 +14,19 @@ Testing in Chrome and Firefox for now.
 git clone [this repo]
 cd extension-testing-example
 npm install
-npm start
+npm run build
 ```
 
-This should get you started developing.  Parcel will create a `dist/` directory
-that you can load into your browser as an extension if you turn on extensions
-developer mode in Chrome or use about:debugging and "Load Temporary Add-on" in
+This will generate an extension in `dist/development` which can be
+loaded as a temporary extension. You must turn on extensions developer
+mode in Chrome or use about:debugging and "Load Temporary Add-on" in
 Firefox.
 
-Then you should be able to load the `dist/` directory into your browser and see
-Fibonacci greatness.
-
-Parcel will also watch the source files and rebuild automatically.
+To generate a production build (without tests) run `npm run
+build-prod`, the extension will be generated in `dist/production`.
 
 See also [Chrome: Getting Started
-Tutorial](https://developers.chrome.com/extensions/getstarted) and 
+Tutorial](https://developers.chrome.com/extensions/getstarted) and
 [Mozilla: Your First Extension](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Your_first_WebExtension) for information about developing and debugging extensions.
 
 # Builds
@@ -37,7 +34,7 @@ Tutorial](https://developers.chrome.com/extensions/getstarted) and
 Production/minimized build:
 
 ```
-npm run build # runs parcel build
+npm run build
 ```
 
 There is currently only one build target but in the future only the debug/dev
@@ -46,11 +43,14 @@ build would include the tests so anyone can run them after installation.
 # Tests
 
 Click the tests button in the extension popup to run the tests in separate html
-page.
+page (currently just shows TAP output, but can be updated to show HTML output).
 
-You can also load the test runner using a web server rather than extension
-protocol with `npm run server` and `http://127.0.0.1:8080/test/index.html`.
-But then calls to `browser` fail unless you mocked it.
+To run the tests in headless Firefox via selenium (useful for CI):
+
+```
+npm run build
+npm test
+```
 
 ## Integration
 
@@ -71,4 +71,3 @@ have to be logged into see them.  I will add them to the release page.
 - https://alxgbsn.co.uk/2019/02/22/testing-native-es-modules-mocha-esm/
 - https://github.com/vitalets/mocha-es6-modules
 - https://github.com/vitalets/awesome-browser-extensions-and-apps
-
