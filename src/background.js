@@ -24,13 +24,15 @@ import state from './state.js'
 import browser from './browser.js'
 
 const setBadge = (str, id) => {
+  console.info('setBadge', str, id);
   browser.browserAction.setBadgeText({
     text: String(str),
     tabId: id
   });
 }
 
-const tabActivated = (props) => {
+const tabActivated = props => {
+  console.info('tabActivated', props.tabId);
   const id = props.tabId;
   setBadge(state.getVal(id), id);
 }
@@ -40,7 +42,7 @@ const tabActivated = (props) => {
  * complete.
  */
 const tabUpdated = (id, props = {}, tab = {}) => {
-  console.log('tabUpdated', id);
+  console.info('tab update', id, props.status);
   let val = state.getVal(id);
   if (props.status === 'complete') {
     val = state.nextVal(id);
@@ -49,6 +51,7 @@ const tabUpdated = (id, props = {}, tab = {}) => {
 }
 
 const tabRemoved = (id, props) => {
+  console.info('tabRemoved', id);
   state.unset(id);
 }
 
@@ -73,5 +76,5 @@ browser.tabs.query({currentWindow: true}).then(allTabs => {
  * features (preferred).
  */
 browser.runtime.onInstalled.addListener(details => {
-  //console.log(navigator.userAgent);
+  console.log('navigator.userAgent', navigator.userAgent);
 });

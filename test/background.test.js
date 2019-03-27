@@ -1,11 +1,17 @@
 import { expect } from 'chai'
 import browser from '../src/browser.js'
 
-// Messing with browser calls
-describe('background worker', function () {
+describe('background worker', () => {
 
-    it('sets badge value when tab is activated', () => {
-      // can't decide if I should do this test with mocks or in an actual browser
+    it('async: badge text follows fibonacci sequence on new tabs', done => {
+      browser.tabs.create({}).then(tab => {
+        console.log('tab', tab);
+        browser.browserAction.getBadgeText({ 'tabId': tab.id }).then(text => {
+          console.log('text', text);
+          expect(text).to.equal(22)
+          done()
+        }).catch(done);
+      }).catch(done);
     });
 
     it('chrome has a tabs.onUpdated.dispatch method', () => {
@@ -16,11 +22,12 @@ describe('background worker', function () {
       }
     });
 
-    it('browser has tabs has a query method', () => {
+    it('browser tabs query finds 3 tabs', done => {
         //browser.tabs.create({url: 'http://mozilla.org', active: true});
         browser.tabs.query({currentWindow: true}).then(tabs => {
-            console.log('tabs', tabs);
-        });
+          expect(tabs.length).to.equal(2)
+          done()
+        }).catch(done);
         //browser.tabs.update({url: 'http://example.com'}, (tab) => {
         //  console.log(arguments);
         //});
