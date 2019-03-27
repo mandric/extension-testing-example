@@ -1,10 +1,10 @@
 const Command = require("selenium-webdriver/lib/command").Command;
 const promiseRetry = require("promise-retry");
-const webdriver = require("selenium-webdriver");
-const firefox = require('selenium-webdriver/firefox');
 const path = require("path");
 const fs = require("fs");
 const vm = require("vm");
+
+const driver = require('./driver');
 
 // converts mozilla addon id to uuid by reading prefs.js
 async function getUUID(path, id) {
@@ -59,11 +59,12 @@ async function installWebExt(driver, extension) {
 }
 
 
-const options = new firefox.Options().headless(true);
-const driver = new webdriver.Builder()
-          .forBrowser('firefox')
-          .setFirefoxOptions(options)
-          .build();
+//const options = new firefox.Options().headless(true);
+//const options = new firefox.Options()
+//const driver = new webdriver.Builder()
+//         .forBrowser('firefox')
+//        .setFirefoxOptions(options)
+//       .build();
 
 function pollOutput(resolve, reject) {
     driver.executeScript(
@@ -85,15 +86,15 @@ function pollOutput(resolve, reject) {
     }).catch(reject);
 }
 
-installWebExt(driver, __dirname + "/../dist/development")
+installWebExt(driver, path.join(__dirname, '..', 'dist', 'development'))
     .then(async (uuid) => {
         // console.error(uuid);
         // console.error('Running test suite\n');
-        const url = "moz-extension://" + uuid + "/test.html";
+        const url = `moz-extension://${uuid}/test.html`;
         await driver.get(url);
-        return new Promise(pollOutput);
-    })
-    .catch((err) => {
+        await new Promise(pollOutput);
+        driver.quit()
+    }).catch(err => {
         console.error(err);
-        process.exit(1);
+        driver.quit()
     });
