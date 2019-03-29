@@ -1,3 +1,4 @@
+const path = require('path');
 const webpack = require('webpack');
 const CopyPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
@@ -12,13 +13,13 @@ module.exports = {
     devtool: mode == 'development' ? 'inline-source-map': false,
     entry: {
         // separate bundles
-        browser: './src/browser.js',
-        background: './src/background.js',
-        popup: './src/popup.js'
+        browser: path.join(__dirname, 'src', 'browser.js'),
+        background: path.join(__dirname, 'src', 'background.js'),
+        popup: path.join(__dirname, 'src', 'popup.js')
     },
     output: {
         // output into either dist/production or dist/development
-        path: __dirname + '/dist/' + mode
+        path: path.join(__dirname, 'dist', mode)
     },
     module: {
         rules: [
@@ -29,8 +30,14 @@ module.exports = {
     plugins: [
         // These files are directlty copied without modification
         new CopyPlugin([
-            {from: 'src/manifest.json', to: 'manifest.json'},
-            {from: 'src/popup.html', to: 'popup.html'},
+            {
+              from: path.join('src', 'manifest.json'),
+              to: 'manifest.json'
+            },
+            {
+              from: path.join('src', 'popup.html'),
+              to: 'popup.html'
+            },
         ]),
         new webpack.DefinePlugin({
             // Allows us to modify included features inside modules at
@@ -42,11 +49,11 @@ module.exports = {
 
 // Include test suite in development build
 if (DEVELOPMENT) {
-    module.exports.entry.test = './test/index.js';
+    module.exports.entry.test = path.join(__dirname, 'test', 'index.js');
     module.exports.plugins.push(new HtmlWebpackPlugin({
         title: 'Test suite',
         filename: 'test.html',
-        template: 'test/test.html',
+        template: path.join('test','test.html'),
         chunks: ['test']
     }));
 }
