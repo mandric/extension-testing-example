@@ -1,7 +1,7 @@
 {
-  "name": "Winbonacci",
+  "name": "webonacci",
   "description": "Neflix of Math",
-  "version": "3000.0.0",
+  "version": "987.0.0",
   "manifest_version": 2,
   "background": {
     "scripts": [

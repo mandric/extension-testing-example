@@ -1,23 +1,14 @@
 /*
- * Winbonacci
+ * Webonacci
  *
  * Maintain Fibonacci sequence and tab id mappings. Then when tab events
  * (activated, loaded new content) are fired set the badge text to the existing
  * value or calculate the next one.
  *
  * When browser extension is refreshed then everything gets reinitialized, a
- * reset button on the bookmark does that.  Feels like a hack but works for
+ * reset button on the popup does that.  Feels like a hack but works for
  * now.
  *
- * Initially using brute force methods, no optimization.  Also there is likely
- * some race conditions under certain loads.
- *
- * Takes a `browser` parameter because we can pass in different APIs (browsers)
- * include a mock API for testing. Only chrome is supported atm.
- *
- * ignoring `onCreated` events because a new tab also immediately emits an
- * updated/loading event so then you need to avoid updating the same tab twice
- * when they are created.
  */
 
 import state from './state.js'
@@ -37,13 +28,11 @@ const tabActivated = props => {
   setBadge(state.getVal(id), id);
 }
 
-/*
- * Used 'loading' rather than 'complete' event since a request might never
- * complete.
- */
 const tabUpdated = (id, props = {}, tab = {}) => {
   console.info('tab update', id, props.status);
   let val = state.getVal(id);
+  // Maybe use 'loading' rather than 'complete' event since a request might
+  // never complete.
   if (props.status === 'complete') {
     val = state.nextVal(id);
   }

@@ -1,3 +1,4 @@
+'use strict';
 const path = require('path');
 const webpack = require('webpack');
 const CopyPlugin = require('copy-webpack-plugin');
@@ -56,4 +57,11 @@ if (DEVELOPMENT) {
         template: path.join('test','test.html'),
         chunks: ['test']
     }));
+//    module.exports.entry.test_integration = path.join(__dirname, 'test', 'integration', 'index.js');
+//    module.exports.plugins.push(new HtmlWebpackPlugin({
+//        title: 'Integration Test suite',
+//        filename: 'test_integration.html',
+//        template: path.join('test', 'test.html'),
+//        chunks: ['test_integration']
+//    }));
 }

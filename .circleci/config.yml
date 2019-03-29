@@ -4,27 +4,44 @@ jobs:
     working_directory: ~/repo
     docker:
       - image: circleci/node:8-browsers
+      #- image: circleci/node:current-browsers
     steps:
       - checkout
       - run: node -v
       - restore_cache:
-          key: dependency-cache-{{ checksum "package.json" }}
+          keys:
+            # package-lock.json can change during npm install
+            - dependency-cache-v1-{{ arch }}-{{ .Branch }}-{{ checksum "package-lock.json" }}
+            - dependency-cache-v1-{{ arch }}-{{ .Branch }}
+            - dependency-cache-v1
       #- run: sudo npm install -g npm@latest
+      #- run: npm ci # slower (would ignore cache) but cleaner
       - run: npm install
       - save_cache:
-          key: dependency-cache-{{ checksum "package.json" }}
+          key: dependency-cache-v1-{{ arch }}-{{ .Branch }}-{{ checksum "package-lock.json" }}
           paths:
             - ./node_modules
       - run: npm run build
+      - run: npm run build:prod
+      - run: npm run test:driver
+      - run: npm run test:driver:chrome
       - run: npm test
       - run: |
-          name="$CIRCLE_PROJECT_REPONAME-$CIRCLE_BUILD_NUM-debug" && \
-          mkdir packed && \
-          mv dist/development "$name" && \
-          tar zcf "$name.tgz" "$name" && \
-          mv "$name.tgz" packed/
+          set -o errexit
+          name="$CIRCLE_PROJECT_REPONAME-$CIRCLE_BUILD_NUM-debug"
+          mkdir archives
+          mv dist/development "$name"
+          tar zcf "$name.tgz" "$name"
+          mv "$name.tgz" archives/
+      - run: |
+          set -o errexit
+          name="$CIRCLE_PROJECT_REPONAME-$CIRCLE_BUILD_NUM"
+          mkdir -p archives
+          mv dist/production "$name"
+          tar zcf "$name.tgz" "$name"
+          mv "$name.tgz" archives/
       - store_artifacts:
-          path: packed
-          destination: packed
+          path: archives
+          destination: archives
 
 
