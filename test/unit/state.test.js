@@ -1,5 +1,5 @@
-import test from 'tape-catch';
-import state from '../../src/state';
+const test = require('tape-catch');
+const state = require('../../src/state');
 
 const populate = (length) => {
   for (let i = 0; i <= length; i++) {

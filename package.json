@@ -10,6 +10,7 @@
     "build": "webpack",
     "build:prod": "NODE_ENV=production webpack",
     "test": "node test/run.js | tap-spec",
+    "test:unit": "tape test/unit/*.js | tap-spec",
     "test:chrome": "SELENIUM_BROWSER=chrome node test/run.js | tap-spec",
     "test:driver": "node test/driver.js | grep 'AHOY WEB CONSOLE!'",
     "test:driver:chrome": "SELENIUM_BROWSER=chrome npm run test:driver",

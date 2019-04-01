@@ -1,4 +1,4 @@
-import { createStore } from 'redux';
+const createStore = require('redux').createStore;
 
 /*
  * data store
@@ -56,9 +56,9 @@ const subscribe = (handler) => {
     store.subscribe(() => handler(store.getState()));
 };
 
-export default {
-    reset,
-    subscribe,
-    dispatch,
-    getState
+module.exports = {
+    reset: reset,
+    subscribe: subscribe,
+    dispatch: dispatch,
+    getState: getState
 };
