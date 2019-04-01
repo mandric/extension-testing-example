@@ -33,6 +33,7 @@
     "webpack-cli": "^3.3.0"
   },
   "dependencies": {
+    "redux": "^4.0.1",
     "webextension-polyfill": "^0.4.0"
   }
 }
