@@ -16,7 +16,7 @@ module.exports = {
         // separate bundles
         browser: path.join(__dirname, 'src', 'browser.js'),
         background: path.join(__dirname, 'src', 'background.js'),
-        popup: path.join(__dirname, 'src', 'popup.js')
+        popup: path.join(__dirname, 'src', 'popup.jsx')
     },
     output: {
         // output into either dist/production or dist/development
@@ -26,6 +26,19 @@ module.exports = {
         rules: [
             // inserts styles into the page using a js module
             {test: /\.css$/, use: ['style-loader', 'css-loader']},
+            // use babel to transform jsx and js files
+            {
+                test: /\.jsx?$/,
+                exclude: /node_modules/,
+                use: [
+                    {
+                        loader: 'babel-loader',
+                        options: {
+                            presets: ['@babel/react']
+                        }
+                    }
+                ]
+            }
         ]
     },
     plugins: [

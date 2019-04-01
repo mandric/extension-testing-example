@@ -5,7 +5,7 @@ test('background worker - chrome has a tabs.onUpdated.dispatch method', (t) => {
     t.end();
 });
 
-test('background worker - browser tabs query finds 3 tabs', (t) => {
+test('background worker - browser tabs query finds 1 tab', (t) => {
     return browser.tabs.query({currentWindow: true}).then(tabs => {
         t.equal(tabs.length, 1);
         t.end();

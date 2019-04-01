@@ -1,55 +1,64 @@
+import { createStore } from 'redux';
+
 /*
  * data store
  */
-const data = {
-  fibSeq: [],
-  tabs: {}
-}
 
-/*
- * Save fib sequence value to the tabs map and fibSeq array.
- */
-const setVal = (val, id) => {
-  data.tabs[id] = val
-  data.fibSeq.push(val)
-}
+const initial = {
+    current_tab: null,
+    fibSeq: [],
+    tabs: {}
+};
+
+const store = createStore((state = initial, action) => {
+    switch (action.type) {
+    case 'TAB_ACTIVATED':
+        state.current_tab = action.id;
+        return state;
+    case 'TAB_UPDATED':
+        const val = calcNextVal(state.fibSeq);
+        state.tabs[action.id] = val;
+        state.fibSeq.push(val);
+        return state;
+    case 'TAB_REMOVED':
+        delete state.tabs[action.id];
+        return state;
+    case 'RESET':
+        state.fibSeq = [];
+        state.tabs = {};
+        return state;
+    default:
+        return state;
+    }
+});
 
 /*
  * Initialize fib sequence on first two values, then calculate after that.
  */
-const calcNextVal = () => {
-  let next = 0
-  if (data.fibSeq.length === 0) {
-    return 0
-  } else if (data.fibSeq.length === 1) {
-    return 1
-  }
-  data.fibSeq.slice(-2).map(val => next += val);
-  return next
-}
-
-const getVal = (id) => {
-  return data.tabs[id]
-}
-
-const nextVal = (id) => {
-  const val = calcNextVal()
-  setVal(val, id)
-  return val
-}
-
-const unset = (id) => {
-  delete data.tabs[id]
-}
+const calcNextVal = (fibSeq) => {
+    let next = 0;
+    if (fibSeq.length === 0) {
+        return 0;
+    } else if (fibSeq.length === 1) {
+        return 1;
+    }
+    fibSeq.slice(-2).map(val => next += val);
+    return next;
+};
 
 const reset = () => {
-  data.fibSeq = []
-  data.tabs = {}
-}
+    store.dispatch({type: 'RESET'});
+};
+
+const getState = () => store.getState();
+const dispatch = (action) => store.dispatch(action);
+const subscribe = (handler) => {
+    store.subscribe(() => handler(store.getState()));
+};
 
 export default {
-  getVal,
-  nextVal,
-  unset,
-  reset
-}
+    reset,
+    subscribe,
+    dispatch,
+    getState
+};

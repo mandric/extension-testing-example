@@ -3,6 +3,6 @@ console.log = function (msg) {
     document.body.appendChild(txt);
 };
 
-// require these dynamically so console.log is overridden first
+// require unit test modules dynamically so
+// console.log is overridden first
 require('./unit/state.test.js');
-require('./unit/background.test.js');
