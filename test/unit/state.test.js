@@ -7,49 +7,50 @@ const populate = (length) => {
   }
 };
 
-test('add values to the fibonacci sequence and return them', (t) => {
+test('activating a tab updates current_tab id', (t) => {
     state.reset();
-    state.nextVal(0); // 0
-    t.equal(state.getVal(0), 0);
-    state.nextVal(0); // 1
-    t.equal(state.getVal(0), 1);
-    state.nextVal(0); // 1
-    t.equal(state.getVal(0), 1);
-    state.nextVal(0); // 2
-    t.equal(state.getVal(0), 2);
-    state.nextVal(0); // 3
-    t.equal(state.getVal(0), 3);
-    state.nextVal(0); // 5
-    t.equal(state.getVal(0), 5);
-    state.nextVal(0); // 8
-    t.equal(state.getVal(0), 8);
+    t.equal(state.getState().current_tab, null);
+    state.dispatch({type: 'TAB_UPDATED', id: 1});
+    state.dispatch({type: 'TAB_UPDATED', id: 2});
+    state.dispatch({type: 'TAB_ACTIVATED', id: 2});
+    t.equal(state.getState().current_tab, 2);
+    state.dispatch({type: 'TAB_ACTIVATED', id: 1});
+    t.equal(state.getState().current_tab, 1);
     t.end();
 });
 
-test('return saved value given an id', (t) => {
+test('updating a tab increments Fibonacci sequence', (t) => {
     state.reset();
-    state.nextVal(1); // 0
-    state.nextVal(2); // 1
-    state.nextVal(3); // 1
-    state.nextVal(4); // 2
-    state.nextVal(5); // 3
-    state.nextVal(6); // 5
-    state.nextVal(7); // 8
-    t.equal(state.getVal(1), 0);
-    t.equal(state.getVal(2), 1);
-    t.equal(state.getVal(3), 1);
-    t.equal(state.getVal(4), 2);
-    t.equal(state.getVal(5), 3);
-    t.equal(state.getVal(6), 5);
-    t.equal(state.getVal(7), 8);
+    state.dispatch({type: 'TAB_UPDATED', id: 1});
+    t.equal(state.getState().tabs[1], 0);
+    state.dispatch({type: 'TAB_UPDATED', id: 1});
+    t.equal(state.getState().tabs[1], 1);
+    state.dispatch({type: 'TAB_UPDATED', id: 1});
+    t.equal(state.getState().tabs[1], 1);
+    state.dispatch({type: 'TAB_UPDATED', id: 1});
+    t.equal(state.getState().tabs[1], 2);
+    state.dispatch({type: 'TAB_UPDATED', id: 1});
+    t.equal(state.getState().tabs[1], 3);
+    state.dispatch({type: 'TAB_UPDATED', id: 1});
+    t.equal(state.getState().tabs[1], 5);
+    state.dispatch({type: 'TAB_UPDATED', id: 1});
+    t.equal(state.getState().tabs[1], 8);
     t.end();
 });
 
-test('can unset a given id', (t) => {
+test('Fibonacci sequence is continued across tabs', (t) => {
     state.reset();
-    populate(10);
-    t.equal(state.getVal(10), 55);
-    state.unset(10);
-    t.equal(typeof state.getVal(10), 'undefined');
+    state.dispatch({type: 'TAB_UPDATED', id: 1});
+    state.dispatch({type: 'TAB_UPDATED', id: 1});
+    state.dispatch({type: 'TAB_UPDATED', id: 1});
+    state.dispatch({type: 'TAB_UPDATED', id: 1});
+    t.equal(state.getState().tabs[1], 2);
+    t.equal(state.getState().tabs[2], undefined);
+    state.dispatch({type: 'TAB_UPDATED', id: 2});
+    t.equal(state.getState().tabs[1], 2);
+    t.equal(state.getState().tabs[2], 3);
+    state.dispatch({type: 'TAB_UPDATED', id: 2});
+    t.equal(state.getState().tabs[1], 2);
+    t.equal(state.getState().tabs[2], 5);
     t.end();
 });
