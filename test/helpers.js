@@ -61,9 +61,8 @@ async function installWebExt(driver, extension) {
 
 function pollOutput(resolve, reject) {
     driver.executeScript(
-        'let el = document.getElementById("tap"); \
-         let txt = el.textContent; \
-         el.textContent = ""; \
+        'let txt = document.body.textContent; \
+         document.body.textContent = ""; \
          return txt;'
     ).then((result) => {
         if (result) {

@@ -1,8 +1,8 @@
-import './runner.js'
+console.log = function (msg) {
+    var txt = document.createTextNode(msg + '\n');
+    document.body.appendChild(txt);
+};
 
-// need to require these dynamically because they rely on globals from
-// window.mocha being present
-require('./state.test.js');
-require('./background.test.js');
-
-window.mocha.run();
+// require these dynamically so console.log is overridden first
+require('./unit/state.test.js');
+require('./unit/background.test.js');

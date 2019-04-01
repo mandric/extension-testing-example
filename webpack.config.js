@@ -45,7 +45,11 @@ module.exports = {
             // compile time using `if (DEVELOPMENT) { ... }`.
             DEVELOPMENT: JSON.stringify(DEVELOPMENT)
         })
-    ]
+    ],
+    node : {
+        // replace 'fs' with empty module so tape builds
+        fs: 'empty'
+    }
 };
 
 // Include test suite in development build
