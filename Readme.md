@@ -52,6 +52,12 @@ npm run build
 npm test
 ```
 
+Unit tests can be run directly in Node:
+
+```
+npm run test:unit
+```
+
 ## Integration
 
 Integration tests or e2e is yet to really be introduced, plan is to use
