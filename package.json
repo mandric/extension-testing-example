@@ -14,6 +14,8 @@
     "test:chrome": "SELENIUM_BROWSER=chrome node test/run.js | tap-spec",
     "test:driver": "node test/driver.js | grep 'AHOY WEB CONSOLE!'",
     "test:driver:chrome": "SELENIUM_BROWSER=chrome npm run test:driver",
+    "test:e2e": "node test/e2e/*.test.js",
+    "test:e2e:chrome": "SELENIUM_BROWSER=chrome node test/e2e/*.test.js",
     "clean": "rm -rf dist"
   },
   "keywords": [],
