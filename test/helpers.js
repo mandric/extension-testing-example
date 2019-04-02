@@ -26,7 +26,24 @@ async function getUUID(path, id) {
     return uuid;
 }
 
+async function browserName(driver) {
+  return driver.getCapabilities().then(function(c) {
+    return c.get('browserName').toLowerCase();
+  });
+}
+
 async function installWebExt(driver, extension) {
+    const browser = await browserName(driver);
+    if (browser === 'firefox') {
+      return installWebExtFirefox(driver, extension)
+    } else if (browser  === 'chrome') {
+      return installWebExtChrome(driver, extension)
+    } else {
+      throw new Error(`${browser} browser not supported.`)
+    }
+}
+
+async function installWebExtFirefox(driver, extension) {
     const cmd = new Command('moz-install-web-ext')
               .setParameter('path', path.resolve(extension))
               .setParameter('temporary', true);
