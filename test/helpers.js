@@ -39,7 +39,7 @@ async function installWebExt(driver, extension) {
     } else if (browser  === 'chrome') {
       return installWebExtChrome(driver, extension)
     } else {
-      throw new Error(`${browser} browser not supported.`)
+      throw new Error(`${browser} extension install not supported.`)
     }
 }
 
@@ -55,7 +55,7 @@ async function installWebExtFirefox(driver, extension) {
         '/session/:sessionId/moz/addon/install'
     );
 
-    const id = await driver.execute(cmd, 'installWebExt(' + extension + ')');
+    const id = await driver.execute(cmd, `installWebExt(${extension})`);
     const caps = await driver.getCapabilities();
     const prefs_file = path.resolve(caps.get('moz:profile'), 'prefs.js');
 

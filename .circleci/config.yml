@@ -26,6 +26,8 @@ jobs:
       - run: npm run test:driver
       - run: npm run test:driver:chrome
       - run: npm test
+      - run: npm run test:unit
+      - run: npm run test:e2e
       - run: |
           set -o errexit
           name="$CIRCLE_PROJECT_REPONAME-$CIRCLE_BUILD_NUM-debug"
