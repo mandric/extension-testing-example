@@ -1,5 +1,6 @@
 'use strict';
-const Command = require("selenium-webdriver/lib/command").Command;
+const Command = require("selenium-webdriver/lib/command").Command
+const { By } = require('selenium-webdriver')
 const promiseRetry = require("promise-retry");
 const path = require("path");
 const fs = require("fs");
@@ -26,21 +27,68 @@ async function getUUID(path, id) {
     return uuid;
 }
 
-async function browserName(driver) {
-  return driver.getCapabilities().then(function(c) {
-    return c.get('browserName').toLowerCase();
+async function getBrowserName(driver) {
+  return getCapability(driver, 'browserName')
+}
+
+async function getCapability(driver, key) {
+  return driver.getCapabilities().then(caps => {
+    return caps.get(key)
   });
 }
 
+async function getExtensionIdChrome (driver) {
+  await driver.get('chrome://extensions')
+  const uuid = await driver.executeScript('return document.querySelector("extensions-manager").shadowRoot.querySelector("extensions-item-list").shadowRoot.querySelector("extensions-item:nth-child(2)").getAttribute("id")')
+  return uuid 
+}
+
+async function getExtensionIdFirefox (driver) {
+  await driver.get('about:debugging#addons')
+  const uuid = await driver.findElement(By.css('dd.addon-target-info-content:nth-child(6) > span:nth-child(1)')).getText()
+  return uuid
+}
+
 async function installWebExt(driver, extension) {
-    const browser = await browserName(driver);
-    if (browser === 'firefox') {
-      return installWebExtFirefox(driver, extension)
-    } else if (browser  === 'chrome') {
-      return installWebExtChrome(driver, extension)
-    } else {
-      throw new Error(`${browser} extension install not supported.`)
-    }
+  const browser = await getBrowserName(driver)
+  if (browser === 'firefox') {
+    return installWebExtFirefox(driver, extension)
+  } else if (browser  === 'chrome') {
+    //return installWebExtChrome(driver, extension)
+    throw new Error(`${browser} can only install extensions at driver construction time`)
+  } else {
+    throw new Error(`${browser} extension install not supported.`)
+  }
+}
+
+function old() {
+  const options = new chrome.Options();
+  options.addArguments([
+    `--load-extension=${extension}`,
+    // See https://docs.travis-ci.com/user/chrome and issue #85 for a rationale.
+    //"--no-sandbox",
+  ]);
+  if (process.env.TEST_NATIVE_CRX_BINDINGS === "1") {
+    console.warn("NOTE: Running tests on a Chrome instance with NativeCrxBindings enabled.");
+    options.addArguments([
+      "--enable-features=NativeCrxBindings",
+    ]);
+  }
+//ChromeOptions options = new ChromeOptions();
+//options.addArguments("load-extension=/path/to/extension");
+//DesiredCapabilities capabilities = new DesiredCapabilities();
+//capabilities.setCapability(ChromeOptions.CAPABILITY, options);
+//ChromeDriver driver = new ChromeDriver(capabilities);
+}
+
+async function newinstallWebExtFirefox(driver, extension) {
+    const command = new Command("install addon")
+      .setParameter("path", path.resolve(extension))
+      .setParameter("temporary", true)
+    return await driver.execute(command).then(uuid => {
+      console.log('uuid', uuid)
+      return uuid
+    })
 }
 
 async function installWebExtFirefox(driver, extension) {
@@ -56,8 +104,8 @@ async function installWebExtFirefox(driver, extension) {
     );
 
     const id = await driver.execute(cmd, `installWebExt(${extension})`);
-    const caps = await driver.getCapabilities();
-    const prefs_file = path.resolve(caps.get('moz:profile'), 'prefs.js');
+    const profileDir = await getCapability(driver, 'moz:profile')
+    const prefs_file = path.resolve(profileDir, 'prefs.js')
 
     // need to wait for addon uuid to get added to prefs.js
     // process.stderr.write('Waiting for webextension UUID');
@@ -97,5 +145,9 @@ function pollOutput(resolve, reject) {
 
 module.exports = {
   pollOutput,
-  installWebExt
+  installWebExt,
+  getCapability,
+  getBrowserName,
+  getExtensionIdChrome,
+  getExtensionIdFirefox 
 }

@@ -13,8 +13,7 @@ module.exports = {
     // only build source maps for development build
     devtool: mode == 'development' ? 'inline-source-map': false,
     entry: {
-        // separate bundles
-        browser: path.join(__dirname, 'src', 'browser.js'),
+        //browser: path.join(__dirname, 'src', 'browser.js'),
         background: path.join(__dirname, 'src', 'background.js'),
         popup: path.join(__dirname, 'src', 'popup.jsx')
     },
@@ -45,6 +44,9 @@ module.exports = {
         // These files are directlty copied without modification
         new CopyPlugin([
             {
+              from: 'node_modules/webextension-polyfill/dist/browser-polyfill.min.js'
+            },
+            {
               from: path.join('src', 'manifest.json'),
               to: 'manifest.json'
             },
@@ -67,12 +69,20 @@ module.exports = {
 
 // Include test suite in development build
 if (DEVELOPMENT) {
-    module.exports.entry.test = path.join(__dirname, 'test', 'index.js');
+    //module.exports.entry.tape = path.join(__dirname, 'node_modules', 'tape', 'index.js')
+    module.exports.entry.test = path.join(__dirname, 'test', 'index.js')
     module.exports.plugins.push(new HtmlWebpackPlugin({
         title: 'Test suite',
         filename: 'test.html',
         template: path.join('test','test.html'),
         chunks: ['test']
+    }));
+    module.exports.entry.badgetest = path.join(__dirname, 'test', 'e2e', 'badge-text.test.js');
+    module.exports.plugins.push(new HtmlWebpackPlugin({
+        title: 'Test suite',
+        filename: 'badge-text.test.html',
+        template: path.join('test','test.html'),
+        chunks: ['badgetest']
     }));
 //    module.exports.entry.test_integration = path.join(__dirname, 'test', 'integration', 'index.js');
 //    module.exports.plugins.push(new HtmlWebpackPlugin({

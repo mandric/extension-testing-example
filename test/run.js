@@ -3,6 +3,7 @@ const path = require('path')
 const driver = require('./driver')
 const { pollOutput, installWebExt } = require('./helpers')
 
+// todo: should be able to simplify with async await
 installWebExt(driver, path.join(__dirname, '..', 'dist', 'development'))
   .then(async uuid => {
     // console.error(uuid);

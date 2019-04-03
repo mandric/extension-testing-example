@@ -15,6 +15,7 @@
 
 const HEADLESS = process.env.SELENIUM_HEADLESS == 'false' ? false: true
 
+const path = require('path')
 const { Builder, logging } = require('selenium-webdriver')
 const firefox = require('selenium-webdriver/firefox')
 const chrome = require('selenium-webdriver/chrome')
@@ -23,10 +24,13 @@ const chrome = require('selenium-webdriver/chrome')
 const prefs = new logging.Preferences()
 prefs.setLevel(logging.Type.BROWSER, logging.Level.ALL)
 
+const extension = path.join(__dirname, '..', 'dist', 'development')
+
 const options = browser => {
   let opts
   if (browser === 'chrome') {
     opts = new chrome.Options()
+      .addArguments([`--load-extension=${extension}`])
   } else {
     opts = new firefox.Options()
       // provide access to console logs in Firefox
