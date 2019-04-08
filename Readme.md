@@ -1,12 +1,15 @@
+
 # extension-testing-example
 
-Browser extension example using ES Modules and browser testing with Mocha,
-Chai, Sinon and Webpack for bundling.  Specifically testing in the browser to
-exercise the browser APIs available to extensions where possible.
-[webextension-polyfill](https://github.com/mozilla/webextension-polyfill) is
-used to standardize the `browser` API on Chrome.
+Browser extension example attempting to provide a decent boilerplate for
+building web extensions with latest web development tools and practices.
+Including: ES Modules, testing with Mocha, Sinon and Selenium for e2e, and
+Webpack for bundling.  Also testing in the browser to exercise the browser APIs
+available to extensions where possible.
 
-Testing in Chrome and Firefox for now.
+`webextension-polyfill` is also used to standardize the `browser` API.
+
+Goal is to have a decent code base that can target Chrome, Firefox and Safari.
 
 # Getting Started
 
@@ -14,51 +17,57 @@ Testing in Chrome and Firefox for now.
 git clone [this repo]
 cd extension-testing-example
 npm install
-npm run build
+npm start
 ```
 
-This will generate an extension in `dist/development` which can be
-loaded as a temporary extension. You must turn on extensions developer
-mode in Chrome or use about:debugging and "Load Temporary Add-on" in
-Firefox.
+This should get you started developing, it will create a `dist/development`
+directory that you can load into your browser as an extension if you turn on
+extensions developer mode.
 
-To generate a production build (without tests) run `npm run
-build:prod`, the extension will be generated in `dist/production`.
+Webpack will also watch the source files and rebuild automatically.
+
+Then you should be able to load the `dist` directory into your browser and see
+Fibonacci greatness.
 
 See also [Chrome: Getting Started
-Tutorial](https://developers.chrome.com/extensions/getstarted) and
-[Mozilla: Your First Extension](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Your_first_WebExtension) for information about developing and debugging extensions.
+Tutorial](https://developers.chrome.com/extensions/getstarted) and 
+[Mozilla: Your First Extension](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Your_first_WebExtension) for information about developing extensions.
 
 # Builds
+
+Development builds include sourcemaps and tests:
+
+```
+npm run build # dist/development
+```
 
 Production/minimized build:
 
 ```
-npm run build
+npm run build:prod # dist/production
 ```
-
-There is currently only one build target but in the future only the debug/dev
-build would include the tests so anyone can run them after installation.
 
 # Tests
 
-Click the tests button in the extension popup to run the tests in separate html
-page (currently just shows TAP output, but can be updated to show HTML output).
-
-To run the tests in headless Firefox via selenium (useful for CI):
-
 ```
-npm run build
 npm test
 ```
 
-## Integration
+You can also click the tests button in the extension popup to run the tests in
+a separate html page.
 
-Integration tests or e2e is yet to really be introduced, plan is to use
-webdriverio.  I'm open to suggestions.
+E2E tests:
+
+```
+npm run test:e2e
+```
+
+See `package.json` scripts property for more options.
+
+# Continuous Integration
 
 Build artifacts (zip file of dist/) are being saved on CirlceCI but you might
-have to be logged into see them.  I will add them to the release page.
+have to be logged in to see them.
 
 [![CircleCI](https://circleci.com/gh/mandric/extension-testing-example.svg?style=svg)](https://circleci.com/gh/mandric/extension-testing-example)
 

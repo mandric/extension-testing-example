@@ -1,2 +1,1 @@
-import browser from './browser-polyfill.js'
-export default browser
+module.exports = require('webextension-polyfill')
